@@ -21,7 +21,7 @@ public class AddressService {
     public Address createAddress(Address address) {
         System.out.println("Salvando no banco!!!");
 
-        if (Float.isNaN(address.getLatitude()) || Float.isNaN(address.getLongitude())) {
+        if (address.getLatitude() == null || address.getLongitude() == null) {
             // método do google para pegar lat + long
         }
 
@@ -57,7 +57,7 @@ public class AddressService {
 
                     address.setComplement(addressUpdated.getComplement());
 
-                    if (addressUpdated.getLatitude().isNaN() || addressUpdated.getLongitude().isNaN()) {
+                    if (addressUpdated.getLatitude() == null || addressUpdated.getLongitude() == null) {
                         Coordinates coordinates = geocodingService.getCoordinates(
                                 addressUpdated.getStreetName(),
                                 addressUpdated.getNumber(),
@@ -70,6 +70,7 @@ public class AddressService {
                         address.setLongitude(addressUpdated.getLongitude());
                     }
                     return address;
-                });
+                })
+                .map(addressRepository::save);
     }
 }

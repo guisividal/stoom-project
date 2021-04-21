@@ -3,10 +3,14 @@ package br.com.gsividal.stoomproject.model;
 import lombok.Data;
 
 import javax.persistence.Entity;
+import javax.persistence.Id;
+
 
 @Data
 @Entity
 public class Address {
+
+    @Id
     private long id;
     private long number;
 
