@@ -7,6 +7,6 @@ services:
     ports:
       - "5432:5432"
     environment:
-      - POSTGRESQL_PASSWORD=password
       - POSTGRESQL_USERNAME=user
-      - POSTGRES_DB=address
+      - POSTGRESQL_PASSWORD=password
+      - POSTGRES_DB=stoom
