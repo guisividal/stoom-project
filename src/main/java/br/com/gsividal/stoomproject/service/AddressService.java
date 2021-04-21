@@ -5,8 +5,6 @@ import br.com.gsividal.stoomproject.repository.AddressRepository;
 import br.com.gsividal.stoomproject.service.geocoding.Coordinates;
 import br.com.gsividal.stoomproject.service.geocoding.GeocodingService;
 import lombok.extern.slf4j.Slf4j;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -25,8 +23,20 @@ public class AddressService {
     public Address createAddress(Address address) {
         log.info("Creating address with id: {}", address.getId());
 
+        if (addressRepository.findById(address.getId()).isPresent()) {
+            throw new IllegalArgumentException("Address already created for Id: " + address.getId());
+        }
+
         if (address.getLatitude() == null || address.getLongitude() == null) {
-            // método do google para pegar lat + long
+            Coordinates coordinates = geocodingService.getCoordinates(
+                    address.getStreetName(),
+                    address.getNumber(),
+                    address.getNeighbourhood(),
+                    address.getCity(),
+                    address.getState(),
+                    address.getCountry());
+            address.setLatitude(coordinates.getLatitude());
+            address.setLongitude(coordinates.getLongitude());
         }
 
         return addressRepository.save(address);
@@ -66,7 +76,9 @@ public class AddressService {
                         Coordinates coordinates = geocodingService.getCoordinates(
                                 addressUpdated.getStreetName(),
                                 addressUpdated.getNumber(),
+                                addressUpdated.getNeighbourhood(),
                                 addressUpdated.getCity(),
+                                addressUpdated.getState(),
                                 addressUpdated.getCountry());
                         address.setLatitude(coordinates.getLatitude());
                         address.setLongitude(coordinates.getLongitude());
