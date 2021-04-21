@@ -4,12 +4,16 @@ import br.com.gsividal.stoomproject.model.Address;
 import br.com.gsividal.stoomproject.repository.AddressRepository;
 import br.com.gsividal.stoomproject.service.geocoding.Coordinates;
 import br.com.gsividal.stoomproject.service.geocoding.GeocodingService;
+import lombok.extern.slf4j.Slf4j;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
 
 @Service
+@Slf4j
 public class AddressService {
 
     @Autowired
@@ -19,7 +23,7 @@ public class AddressService {
     private GeocodingService geocodingService;
 
     public Address createAddress(Address address) {
-        System.out.println("Salvando no banco!!!");
+        log.info("Creating address with id: {}", address.getId());
 
         if (address.getLatitude() == null || address.getLongitude() == null) {
             // método do google para pegar lat + long
@@ -29,13 +33,13 @@ public class AddressService {
     }
 
     public Optional<Address> getAddress(Long id) {
-        System.out.println("Buscando no banco!!!");
+        log.info("Searching address with id: {}", id);
 
         return addressRepository.findById(id);
     }
 
     public Optional<Address> deleteAddress(Long id) {
-        System.out.println("Deletando no banco!!!");
+        log.info("Deleting address with id: {}", id);
         return addressRepository.findById(id)
                 .map(addressFound -> {
                     addressRepository.deleteById(id);
@@ -44,7 +48,8 @@ public class AddressService {
     }
 
     public Optional<Address> editAddress(Address addressUpdated) {
-        System.out.println("Editando no banco!!!");
+        log.info("Editing address with id: {}", addressUpdated.getId());
+
         return addressRepository.findById(addressUpdated.getId())
                 .map(address -> {
                     address.setStreetName(addressUpdated.getStreetName());
