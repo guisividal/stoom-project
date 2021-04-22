@@ -1,0 +1,21 @@
+version: '2'
+services:
+  postgres:
+    container_name: postgres_container
+    image: docker.io/bitnami/postgresql:11.6.0-debian-10-r17
+    restart: always
+    ports:
+      - "5432:5432"
+    environment:
+      - POSTGRESQL_USERNAME=user
+      - POSTGRESQL_PASSWORD=password
+      - POSTGRES_DB=stoom
+  stoom:
+    container_name: stoom_container
+    image: gsividal/stoom:latest
+    ports:
+      - "8080:8080"
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://postgres:5432/stoom
+networks:
+  default:
