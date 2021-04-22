@@ -1,25 +1,22 @@
-#
+# Teste de Qualificação Backend STOOM
 
-##TECNOLOGIAS
+## Technologies
 * JAVA 11
 * Spring Boot 2.4.x
-* Spring Data JPA
-* Postgres SQL 
+* Spring Data JPA 2.4.x
+* Postgres SQL 11.6.x
+* Lombok 1.18.x
+* Maven 3.6.x
+* Docker 3.3.x
 
-## RODANDO sem Builder
-
-* `mvnw spring-boot:run`
-
-## COMO BUILDA & Executar
+## Building and running
 
 * `mvnw clean package`
-* `cd target`
-* `java -jar stoom-project-0.0.1-SNAPSHOT.jar`
+* `docker build -t gsividal/stoom .`
+* `docker run -p 8080:8080 -e "SPRING_DATASOURCE_URL=jdbc:postgresql://postgres:5432/stoom" --name="stoom_container" --network="stoom-project_default" gsividal/stoom`
 
-## Executar somente testes
+## Running tests only
 
-- necessita postgres e internet
+Needs Postgres and internet
 
 * `mvnw test`
-
-https://gist.github.com/pedroits/9a42411f44ba9d75a70bfb7122c6f642
