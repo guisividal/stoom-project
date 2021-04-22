@@ -37,7 +37,7 @@ public class GeocodingService {
 
         if (responseEntity.getStatusCode().is2xxSuccessful()) {
             GeocodingResponse body = responseEntity.getBody();
-            log.debug("body: {}", body);
+
             Location location = Optional.ofNullable(body)
                     .map(GeocodingResponse::getResults)
                     .stream()
