@@ -23,7 +23,7 @@ public class GeocodingService {
     @Value("${google.geocoding-key}")
     private String geoCodingKey;
 
-    private final String SERVICE_URL = "https://maps.googleapis.com/maps/api/geocode/json?address={address}&key={key}"; //?address=Winnetka&key=
+    private final String SERVICE_URL = "https://maps.googleapis.com/maps/api/geocode/json?address={address}&key={key}";
 
     public GeocodingService(RestTemplateBuilder restTemplateBuilder) {
         this.client = restTemplateBuilder

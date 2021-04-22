@@ -50,15 +50,6 @@ public class AddressService {
         return addressRepository.findById(id);
     }
 
-    public Optional<Address> deleteAddress(Long id) {
-        log.info("Deleting address with id: {}", id);
-        return addressRepository.findById(id)
-                .map(addressFound -> {
-                    addressRepository.deleteById(id);
-                    return addressFound;
-                });
-    }
-
     public Optional<Address> updateAddress(Address addressUpdated) {
         log.info("Editing address with id: {}", addressUpdated.getId());
 
@@ -93,5 +84,14 @@ public class AddressService {
                     return address;
                 })
                 .map(addressRepository::save);
+    }
+
+    public Optional<Address> deleteAddress(Long id) {
+        log.info("Deleting address with id: {}", id);
+        return addressRepository.findById(id)
+                .map(addressFound -> {
+                    addressRepository.deleteById(id);
+                    return addressFound;
+                });
     }
 }
