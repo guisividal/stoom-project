@@ -28,6 +28,8 @@ public class AddressService {
         }
 
         if (address.getLatitude() == null || address.getLongitude() == null) {
+            log.info("Lat or lng not specified, fetching the Geocoding API using the address");
+
             Coordinates coordinates = geocodingService.getCoordinates(
                     address.getStreetName(),
                     address.getNumber(),
@@ -42,7 +44,7 @@ public class AddressService {
         return addressRepository.save(address);
     }
 
-    public Optional<Address> getAddress(Long id) {
+    public Optional<Address> readAddress(Long id) {
         log.info("Searching address with id: {}", id);
 
         return addressRepository.findById(id);
@@ -57,7 +59,7 @@ public class AddressService {
                 });
     }
 
-    public Optional<Address> editAddress(Address addressUpdated) {
+    public Optional<Address> updateAddress(Address addressUpdated) {
         log.info("Editing address with id: {}", addressUpdated.getId());
 
         return addressRepository.findById(addressUpdated.getId())
@@ -73,6 +75,8 @@ public class AddressService {
                     address.setComplement(addressUpdated.getComplement());
 
                     if (addressUpdated.getLatitude() == null || addressUpdated.getLongitude() == null) {
+                        log.info("Lat or lng not specified, fetching the Geocoding API using the address");
+
                         Coordinates coordinates = geocodingService.getCoordinates(
                                 addressUpdated.getStreetName(),
                                 addressUpdated.getNumber(),

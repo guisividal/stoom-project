@@ -107,7 +107,7 @@ public class AddressControllerTest {
         addressDTO.setCity("Pedreira");
         addressDTO.setCountry("Brasil");
         addressDTO.setNeighbourhood("Morumbi");
-        addressDTO.setNumber(105);
+        addressDTO.setNumber(105L);
         addressDTO.setState("SP");
         addressDTO.setZipcode("13920-000");
         addressDTO.setStreetName("Rua Louis Pasteur");
@@ -117,5 +117,4 @@ public class AddressControllerTest {
         addressDTO.setComplement("Casa");
         return addressDTO;
     }
-
 }

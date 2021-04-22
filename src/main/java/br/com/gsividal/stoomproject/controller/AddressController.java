@@ -8,6 +8,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
+
 @RestController
 @RequestMapping("/addresses")
 public class AddressController {
@@ -15,28 +17,31 @@ public class AddressController {
     @Autowired
     private AddressService addressService;
 
-    @GetMapping("/{id}")
-    public ResponseEntity<AddressDTO> getAddress(@PathVariable("id") Long id) {
-        return addressService.getAddress(id)
-                .map(address -> ResponseEntity.status(HttpStatus.OK).body(convert(address)))
-                .orElse(ResponseEntity.status(HttpStatus.NOT_FOUND).build());
-    }
-
+    // CREATE
     @PostMapping
-    public ResponseEntity<AddressDTO> createAddress(@RequestBody AddressDTO addressDTO) {
+    public ResponseEntity<AddressDTO> createAddress(@Valid @RequestBody AddressDTO addressDTO) {
         Address address = addressService.createAddress(convert(addressDTO));
 
         return ResponseEntity.status(HttpStatus.CREATED).body(convert(address));
     }
 
-    @PutMapping
-    public ResponseEntity<AddressDTO> editAddress(@RequestBody AddressDTO addressDTO) {
-        return addressService.editAddress(convert(addressDTO))
+    // READ
+    @GetMapping("/{id}")
+    public ResponseEntity<AddressDTO> readAddress(@PathVariable("id") Long id) {
+        return addressService.readAddress(id)
                 .map(address -> ResponseEntity.status(HttpStatus.OK).body(convert(address)))
                 .orElse(ResponseEntity.status(HttpStatus.NOT_FOUND).build());
     }
 
-    // DELETE @ :8080/address/1
+    // UPDATE
+    @PutMapping
+    public ResponseEntity<AddressDTO> updateAddress(@Valid @RequestBody AddressDTO addressDTO) {
+        return addressService.updateAddress(convert(addressDTO))
+                .map(address -> ResponseEntity.status(HttpStatus.OK).body(convert(address)))
+                .orElse(ResponseEntity.status(HttpStatus.NOT_FOUND).build());
+    }
+
+    // DELETE
     @DeleteMapping("/{id}")
     public ResponseEntity<AddressDTO> deleteAddress(@PathVariable(value = "id") Long id) {
         return addressService.deleteAddress(id)
